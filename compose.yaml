@@ -1,0 +1,33 @@
+services:
+  playwright:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        HTTP_PROXY: ${HTTP_PROXY:-}
+        HTTPS_PROXY: ${HTTPS_PROXY:-}
+        NO_PROXY: ${NO_PROXY:-localhost,127.0.0.1}
+
+    image: qa-playwright-runner:1.0
+    container_name: qa-playwright-runner
+  
+
+    env_file:
+      - ./.env
+
+    environment:
+      HTTP_PROXY: ${HTTP_PROXY:-}
+      HTTPS_PROXY: ${HTTPS_PROXY:-}
+      NO_PROXY: ${NO_PROXY:-localhost,127.0.0.1}
+      http_proxy: ${HTTP_PROXY:-}
+      https_proxy: ${HTTPS_PROXY:-}
+      no_proxy: ${NO_PROXY:-localhost,127.0.0.1}
+      API_BASE_URL: https://dummyjson.com
+
+    working_dir: /app
+
+    volumes:
+      - ./test-results:/app/test-results
+      - ./logs:/app/logs
+
+  
